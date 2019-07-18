@@ -583,7 +583,7 @@ main_sources = ["torch/csrc/stub.cpp"]
 # before libcaffe2.so in the linker command.
 main_link_args.extend(CAFFE2_LIBS)
 
-install_requires=[]
+install_requires = []
 
 if sys.version_info[0] == 2:
     install_requires.append('future')
