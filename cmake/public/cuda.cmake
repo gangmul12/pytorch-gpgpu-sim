@@ -167,7 +167,7 @@ endif()
 # stubs folder, in case we are building on a system that does not
 # have cuda driver installed. On windows, we also search under the
 # folder lib/x64.
-find_library(CUDA_CUDA_LIB cuda
+find_library(CUDA_CUDA_LIB cudart
     PATHS ${CUDA_TOOLKIT_ROOT_DIR}
     PATH_SUFFIXES lib lib64 lib/stubs lib64/stubs lib/x64)
 find_library(CUDA_NVRTC_LIB nvrtc
@@ -262,15 +262,9 @@ endif()
 # cublas. CUDA_CUBLAS_LIBRARIES is actually a list, so we will make an
 # interface library similar to cudart.
 add_library(caffe2::cublas INTERFACE IMPORTED)
-if(CAFFE2_STATIC_LINK_CUDA)
-    set_property(
-        TARGET caffe2::cublas PROPERTY INTERFACE_LINK_LIBRARIES
-        "${CUDA_TOOLKIT_ROOT_DIR}/lib64/libcublas_static.a")
-else()
-    set_property(
-        TARGET caffe2::cublas PROPERTY INTERFACE_LINK_LIBRARIES
-        ${CUDA_CUBLAS_LIBRARIES})
-endif()
+set_property(
+    TARGET caffe2::cublas PROPERTY INTERFACE_LINK_LIBRARIES
+    "${CUDA_TOOLKIT_ROOT_DIR}/lib64/libcublas_static.a")
 set_property(
     TARGET caffe2::cublas PROPERTY INTERFACE_INCLUDE_DIRECTORIES
     ${CUDA_INCLUDE_DIRS})
