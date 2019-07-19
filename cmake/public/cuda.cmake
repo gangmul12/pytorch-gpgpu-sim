@@ -167,7 +167,7 @@ endif()
 # stubs folder, in case we are building on a system that does not
 # have cuda driver installed. On windows, we also search under the
 # folder lib/x64.
-find_library(CUDA_CUDA_LIB cudart
+find_library(CUDA_CUDA_LIB cuda
     PATHS ${CUDA_TOOLKIT_ROOT_DIR}
     PATH_SUFFIXES lib lib64 lib/stubs lib64/stubs lib/x64)
 find_library(CUDA_NVRTC_LIB nvrtc
