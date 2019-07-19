@@ -792,7 +792,7 @@ if(USE_CUDA)
         LIST(APPEND Caffe2_PUBLIC_CUDA_DEPENDENCY_LIBS
           caffe2::cudnn "${CUDA_TOOLKIT_ROOT_DIR}/lib64/libculibos.a" "dl" caffe2::cublas)
       ELSE()
-        list(APPEND Caffe2_PUBLIC_CUDA_DEPENDENCY_LIBS caffe2::cudnn)
+        list(APPEND Caffe2_PUBLIC_CUDA_DEPENDENCY_LIBS caffe2::cudnn "${CUDA_TOOLKIT_ROOT_DIR}/lib64/libculibos.a")
       ENDIF()
     else()
       caffe2_update_option(USE_CUDNN OFF)
