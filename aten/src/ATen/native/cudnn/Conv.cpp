@@ -477,6 +477,12 @@ perf_t getBestAlgorithm(perf_t *perfResults, const ConvolutionArgs& args, int n_
     }
   } else {
     best_algo_idx = 0;
+    if (std::is_same<decltype(perfResults[best_algo_idx].algo), cudnnConvolutionFwdAlgo_t>::value) {
+	if(static_cast<cudnnConvolutionFwdAlgo_t>(perfResults[best_algo_idx].algo) == CUDNN_CONVOLUTION_FWD_ALGO_IMPLICIT_PRECOMP_GEMM
+		|| static_cast<cudnnConvolutionFwdAlgo_t>(perfResults[best_algo_idx].algo) == CUDNN_CONVOLUTION_FWD_ALGO_WINOGRAD ){ best_algo_idx++;}
+	if(static_cast<cudnnConvolutionFwdAlgo_t>(perfResults[best_algo_idx].algo) == CUDNN_CONVOLUTION_FWD_ALGO_IMPLICIT_PRECOMP_GEMM
+		|| static_cast<cudnnConvolutionFwdAlgo_t>(perfResults[best_algo_idx].algo) == CUDNN_CONVOLUTION_FWD_ALGO_WINOGRAD ){ best_algo_idx++;}
+    }
   }
 
   // See Note [blacklist fft algorithms for strided dgrad]
