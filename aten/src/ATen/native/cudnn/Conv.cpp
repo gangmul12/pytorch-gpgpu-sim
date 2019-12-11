@@ -477,12 +477,6 @@ perf_t getBestAlgorithm(perf_t *perfResults, const ConvolutionArgs& args, int n_
     }
   } else {
     best_algo_idx = 0;
-    if (std::is_same<decltype(perfResults[best_algo_idx].algo), cudnnConvolutionFwdAlgo_t>::value) {
-	if(static_cast<cudnnConvolutionFwdAlgo_t>(perfResults[best_algo_idx].algo) == CUDNN_CONVOLUTION_FWD_ALGO_IMPLICIT_PRECOMP_GEMM
-		|| static_cast<cudnnConvolutionFwdAlgo_t>(perfResults[best_algo_idx].algo) == CUDNN_CONVOLUTION_FWD_ALGO_WINOGRAD ){ best_algo_idx++;}
-	if(static_cast<cudnnConvolutionFwdAlgo_t>(perfResults[best_algo_idx].algo) == CUDNN_CONVOLUTION_FWD_ALGO_IMPLICIT_PRECOMP_GEMM
-		|| static_cast<cudnnConvolutionFwdAlgo_t>(perfResults[best_algo_idx].algo) == CUDNN_CONVOLUTION_FWD_ALGO_WINOGRAD ){ best_algo_idx++;}
-    }
   }
 
   // See Note [blacklist fft algorithms for strided dgrad]
@@ -512,7 +506,7 @@ struct algorithm_search<cudnnConvolutionFwdAlgoPerf_t> {
   using perf_t = cudnnConvolutionFwdAlgoPerf_t;
   using algo_t = cudnnConvolutionFwdAlgo_t;
 
-  static constexpr auto DEFAULT_ALGO = CUDNN_CONVOLUTION_FWD_ALGO_IMPLICIT_PRECOMP_GEMM;
+  static constexpr auto DEFAULT_ALGO = CUDNN_CONVOLUTION_FWD_ALGO_GEMM;
   static BenchmarkCache<perf_t>& cache() { return fwd_algos; }
 
   static perf_t findAlgorithm(const ConvolutionArgs& args, bool benchmark) {
@@ -579,7 +573,7 @@ struct algorithm_search<cudnnConvolutionBwdDataAlgoPerf_t> {
   using perf_t = cudnnConvolutionBwdDataAlgoPerf_t;
   using algo_t = cudnnConvolutionBwdDataAlgo_t;
 
-  static constexpr auto DEFAULT_ALGO = CUDNN_CONVOLUTION_BWD_DATA_ALGO_1;
+  static constexpr auto DEFAULT_ALGO = CUDNN_CONVOLUTION_BWD_DATA_ALGO_0;
   static BenchmarkCache<perf_t>& cache() { return bwd_data_algos; }
 
   static perf_t findAlgorithm(const ConvolutionArgs& args, bool benchmark) {
@@ -644,7 +638,7 @@ struct algorithm_search<cudnnConvolutionBwdFilterAlgoPerf_t> {
   using perf_t = cudnnConvolutionBwdFilterAlgoPerf_t;
   using algo_t = cudnnConvolutionBwdFilterAlgo_t;
 
-  static constexpr auto DEFAULT_ALGO = CUDNN_CONVOLUTION_BWD_FILTER_ALGO_1;
+  static constexpr auto DEFAULT_ALGO = CUDNN_CONVOLUTION_BWD_FILTER_ALGO_0;
 
   static BenchmarkCache<perf_t>& cache() { return bwd_filter_algos; }
 
